@@ -1,0 +1,29 @@
+---
+- name: Include OS-specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
+
+- name: Install the clamav package
+  package:
+    name: '{{ clamd_package_name }}'
+
+
+- name: Include OS-specific actions
+  include: '{{ ansible_os_family }}.yml'
+
+- name: Specify configuration settings for freshclam
+  lineinfile:
+    dest: '{{ clamd_configuration_file_path }}'
+    line: '{{ item.key }} {{ item.value }}'
+  with_dict: '{{ clamav_clamd_settings }}'
+  notify: restart freshclam
+
+- name: Wait for freshclam to populaite main.cvd
+  wait_for:
+    path: /var/db/clamav/main.cvd
+
+- name: Start clamd
+  service:
+    name: '{{ clamd_service_name }}'
+    state: started
+    enabled: yes

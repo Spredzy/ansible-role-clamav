@@ -1,0 +1,17 @@
+---
+- name: reload clamd
+  service:
+    name: '{{ clamd_service_name }}'
+    state: reloaded
+
+
+- name: restart clamd
+  service:
+    name: '{{ clamd_service_name }}'
+    state: restarted
+
+
+- name: restart freshclam
+  service:
+    name: '{{ freshclam_service_name }}'
+    state: restarted

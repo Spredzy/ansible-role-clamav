@@ -1,0 +1,7 @@
+---
+- name: Include freshclam playbook
+  include: 'freshclam.yml'
+
+
+- name: Include clamd playbook
+  include: 'clamd.yml'

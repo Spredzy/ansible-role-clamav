@@ -1,0 +1,8 @@
+---
+clamd_configuration_file_path: /usr/local/etc/clamd.conf
+clamd_package_name: clamav
+clamd_service_name: clamav-clamd
+
+freshclam_configuration_file_path: /usr/local/etc/freshclam.conf
+freshclam_package_name: clamav
+freshclam_service_name: clamav-freshclam

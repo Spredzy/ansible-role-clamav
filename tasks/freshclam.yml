@@ -1,0 +1,27 @@
+---
+- name: Include OS-specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
+
+- name: Install the clamav package
+  package:
+    name: '{{ freshclam_package_name }}'
+
+
+- name: Include OS-specific actions
+  include: '{{ ansible_os_family }}.yml'
+
+
+- name: Specify configuration settings for freshclam
+  lineinfile:
+    dest: '{{ freshclam_configuration_file_path }}'
+    line: '{{ item.key }} {{ item.value }}'
+  with_dict: '{{ clamav_freshclam_settings }}'
+  notify: restart freshclam
+
+
+- name: Start freshclam
+  service:
+    name: '{{ freshclam_service_name }}'
+    state: started
+    enabled: yes
